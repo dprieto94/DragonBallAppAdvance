@@ -1,4 +1,4 @@
-package com.dprieto.dragonballapp
+package com.dprieto.dragonballapp.ui.splash
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -54,4 +54,11 @@ class SplashFragment : Fragment() {
         super.onResume()
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
     }
+
+    /*
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)?.supportActionBar?.show()
+    }
+     */
 }

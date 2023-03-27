@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/SplashScreenFragment"
-        android:name="com.dprieto.dragonballapp.SplashFragment"
+        android:name="com.dprieto.dragonballapp.ui.splash.SplashFragment"
         android:label="@string/splash_fragment"
         tools:layout="@layout/fragment_splash">
 
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/LoginScreenFragment"
-        android:name="com.dprieto.dragonballapp.LoginFragment"
+        android:name="com.dprieto.dragonballapp.ui.login.LoginFragment"
         android:label="@string/login_fragment"
         tools:layout="@layout/fragment_login">
 
