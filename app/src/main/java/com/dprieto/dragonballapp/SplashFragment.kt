@@ -54,9 +54,4 @@ class SplashFragment : Fragment() {
         super.onResume()
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
     }
-
-    override fun onStop() {
-        super.onStop()
-        (activity as AppCompatActivity?)?.supportActionBar?.show()
-    }
 }
