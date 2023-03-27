@@ -3,26 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/SplashScreenFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.dprieto.dragonballapp.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/SplashScreenFragment"
+        android:name="com.dprieto.dragonballapp.SplashFragment"
+        android:label="@string/splash_fragment"
+        tools:layout="@layout/fragment_splash">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_SplashFragment_to_LoginFragment"
+            app:destination="@id/LoginScreenFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            />
+
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.dprieto.dragonballapp.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/LoginScreenFragment"
+        android:name="com.dprieto.dragonballapp.LoginFragment"
+        android:label="@string/login_fragment"
+        tools:layout="@layout/fragment_login">
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+
     </fragment>
 </navigation>
