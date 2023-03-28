@@ -1,8 +1,10 @@
 package com.dprieto.dragonballapp.data.remote
 
-class RemoteDataSourceImp(private val api: DragonBallApi): RemoteDataSource {
+import javax.inject.Inject
 
-    override suspend fun  doLogin(): String{
+class RemoteDataSourceImp @Inject constructor(private val api: DragonBallApi): RemoteDataSource {
+
+    override suspend fun  doLogin(user: String, pass: String): String{
         return api.doLogin()
     }
 

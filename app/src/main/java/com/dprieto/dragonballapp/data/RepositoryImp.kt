@@ -1,10 +1,11 @@
 package com.dprieto.dragonballapp.data
 
 import com.dprieto.dragonballapp.data.remote.RemoteDataSource
+import javax.inject.Inject
 
-class RepositoryImp(private val remoteDataSource: RemoteDataSource): Repository {
+class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteDataSource): Repository {
 
-    override suspend fun doLogin(): String {
-        return remoteDataSource.doLogin()
+    override suspend fun doLogin(user: String, pass: String): String {
+        return remoteDataSource.doLogin(user, pass)
     }
 }

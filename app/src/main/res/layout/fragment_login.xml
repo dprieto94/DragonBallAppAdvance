@@ -30,17 +30,24 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
+            android:id="@+id/edit_text_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario"/>
+            android:hint="Usuario"
+            android:inputType="text"
+            android:autofillHints="User" />
         <EditText
+            android:id="@+id/edit_text_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Clave"/>
+            android:hint="Clave"
+            android:inputType="textVisiblePassword"
+            android:autofillHints="Pass"/>
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
