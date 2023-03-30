@@ -26,6 +26,35 @@
         android:label="@string/login_fragment"
         tools:layout="@layout/fragment_login">
 
+        <action
+            android:id="@+id/action_LoginFragment_to_HeroListFragment"
+            app:destination="@id/HerosListScreenFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/HerosListScreenFragment"
+        android:name="com.dprieto.dragonballapp.ui.herolist.HeroListFragment"
+        android:label="@string/hero_list_fragment_label"
+        tools:layout="@layout/fragment_hero_list">
+
+        <action
+            android:id="@+id/action_HerosListFragment_to_DetailHeroFragment"
+            app:destination="@id/DetailHeroScreenFragment"
+
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/DetailHeroScreenFragment"
+        android:name="com.dprieto.dragonballapp.ui.detail.HeroDetailFragment"
+        android:label="@string/detail_hero_label"
+        tools:layout="@layout/fragment_hero_detail">
 
     </fragment>
 </navigation>

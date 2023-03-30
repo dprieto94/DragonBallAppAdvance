@@ -17,6 +17,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object NetworkModule {
 
     @Provides
+    fun provideToken(): String{
+        return "eyJraWQiOiJwcml2YXRlIiwiYWxnIjoiSFMyNTYiLCJ0eXAiOiJKV1QifQ.eyJpZGVudGlmeSI6IjdBQjhBQzRELUFEOEYtNEFDRS1BQTQ1LTIxRTg0QUU4QkJFNyIsImVtYWlsIjoiYmVqbEBrZWVwY29kaW5nLmVzIiwiZXhwaXJhdGlvbiI6NjQwOTIyMTEyMDB9.Dxxy91hTVz3RTF7w1YVTJ7O9g71odRcqgD00gspm30s"
+    }
+
+    @Provides
     fun provideMoshi(): Moshi {
         return  Moshi.Builder()
             .addLast(KotlinJsonAdapterFactory())
@@ -31,14 +36,14 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient(httpLogginInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(httpLogginInterceptor: HttpLoggingInterceptor, token: String): OkHttpClient {
         return  OkHttpClient.Builder()
             .addInterceptor { chain ->
                 //Este interractor modifica la header
                 val originalRequest = chain.request()
 
                 val newRequest = originalRequest.newBuilder()
-                    //.header("Authorization", "Bearer $TOKEN")
+                    .header("Authorization", "Bearer $token")
                     .header("Content-Type", "application/json")
                     .build()
 

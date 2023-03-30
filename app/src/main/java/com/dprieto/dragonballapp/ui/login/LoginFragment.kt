@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dprieto.dragonballapp.databinding.FragmentLoginBinding
+import com.dprieto.dragonballapp.ui.splash.SplashFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +37,8 @@ class LoginFragment : Fragment() {
 
         with(binding){
             buttonLogin.setOnClickListener {
-                viewModel.doLogin(editTextUser.text.toString(), editTextPass.text.toString())
+                findNavController()
+                    .navigate(LoginFragmentDirections.actionLoginFragmentToHeroListFragment())
             }
         }
     }
