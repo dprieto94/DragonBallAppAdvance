@@ -44,6 +44,7 @@ class HeroListFragment : Fragment() {
             herosList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             herosList.adapter = adapter
 
+
             viewModel.state.observe(viewLifecycleOwner){state->
 
                 when(state){
@@ -55,11 +56,19 @@ class HeroListFragment : Fragment() {
                     }
                     is HeroListState.Success -> {
                         adapter.submitList( state.heros )
+
+                        buttonFavorite.setOnClickListener {
+                            viewModel.filterFavorite(state.heros)
+                        }
+
                     }
                     is HeroListState.FilterFavorites -> {
                         adapter.submitList( state.heros.filter {
-                            it.favorite == state.favorite
+                            it.favorite
                         } )
+                        buttonFavorite.setOnClickListener {
+                            viewModel.unFilterFavorite(state.heros)
+                        }
                     }
                 }
             }

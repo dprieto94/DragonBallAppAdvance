@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dragon_ball_wallpaper"
     tools:context=".ui.herolist.HeroListFragment">
 
 
@@ -10,5 +12,19 @@
         android:id="@+id/heros_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@android:drawable/btn_star"
+        android:backgroundTint="@color/dragon_ball_orange_light"
+        app:tint="@android:color/holo_red_dark"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+
+        android:contentDescription="@null" />
+
 
 </FrameLayout>

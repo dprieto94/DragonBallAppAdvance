@@ -36,12 +36,13 @@ class HeroListAdapter (private val itemClickListener: (HeroModel) -> (Unit)):
             }
         }
 
-        fun bind(superhero: HeroModel){
-            this.hero = superhero
+        fun bind(hero: HeroModel){
+            this.hero = hero
 
             with(binding){
-                heroName.text = superhero.name
-                heroImage.load(superhero.photo)
+                heroName.text = hero.name
+                heroFavorite.isChecked = hero.favorite
+                heroImage.load(hero.photo)
             }
         }
     }
