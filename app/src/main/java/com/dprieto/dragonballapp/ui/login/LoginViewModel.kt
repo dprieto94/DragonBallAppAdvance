@@ -21,7 +21,7 @@ class LoginViewModel @Inject constructor(private val repository: Repository): Vi
     fun doLogin(user: String, pass: String){
         viewModelScope.launch {
             val login = withContext(Dispatchers.IO){
-                repository.doLogin(user, pass)
+                repository.doLogin()
             }
             Log.d(TAG, login.toString())
         }
