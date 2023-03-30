@@ -10,8 +10,20 @@ class RemoteDataSourceImp @Inject constructor(private val api: DragonBallApi): R
         return api.doLogin()
     }
 
-    override suspend fun getHeros(name: String): Result<List<HeroResponse>> {
-        return runCatching { api.getHeros(HerosRequest(name)) }
+    override suspend fun getHeros(): Result<List<HeroResponse>> {
+        return runCatching { api.getHeros(HerosRequest()) }
+    }
+
+    override suspend fun getHeroDetail(name: String): Result<HeroResponse?> {
+        return runCatching { api.getHeroDetail(HerosRequest(name = name)).firstOrNull() }
+    }
+
+    override suspend fun getLocations(id: String): Result<List<HeroResponse>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setFavorite() {
+        TODO("Not yet implemented")
     }
 
 }

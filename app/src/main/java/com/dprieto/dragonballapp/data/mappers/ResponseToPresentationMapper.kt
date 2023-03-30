@@ -2,6 +2,7 @@ package com.dprieto.dragonballapp.data.mappers
 
 import com.dprieto.dragonballapp.data.remote.response.HeroResponse
 import com.dprieto.dragonballapp.domain.HeroModel
+import com.dprieto.dragonballapp.domain.HeroModelDetail
 import javax.inject.Inject
 
 class ResponseToPresentationMapper @Inject constructor(){

@@ -24,7 +24,7 @@ class HeroListFragment : Fragment() {
 
     private val adapter = HeroListAdapter {
         //Navigation to new detail fragment
-        findNavController().navigate(HeroListFragmentDirections.actionHerosListFragmentToDetailHeroFragment())
+        findNavController().navigate(HeroListFragmentDirections.actionHerosListFragmentToDetailHeroFragment(it.name))
     }
 
     override fun onCreateView(
