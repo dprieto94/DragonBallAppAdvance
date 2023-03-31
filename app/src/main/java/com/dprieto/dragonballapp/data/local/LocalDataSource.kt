@@ -6,6 +6,8 @@ interface LocalDataSource {
 
     fun getHeros(): Result<List<HeroRoomModel>>
 
+    fun getHero(id: String): HeroRoomModel
+
     fun insertHeros(localSuperherosList: List<HeroRoomModel>)
 
     fun updateHero(hero: HeroRoomModel)

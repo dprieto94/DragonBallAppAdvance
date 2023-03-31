@@ -28,10 +28,10 @@ class HeroDetailViewModel @Inject constructor(private val repository: Repository
         }
     }
 
-    fun updateFavorite(id: String){
+    fun updateFavorite(id: String, name: String){
         viewModelScope.launch {
             val heroState = withContext(Dispatchers.IO){
-                repository.getHeroDetail(id)
+                repository.setFavorite(id, name)
             }
 
             _state.value = heroState

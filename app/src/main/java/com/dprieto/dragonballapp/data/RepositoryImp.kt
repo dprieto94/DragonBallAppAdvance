@@ -1,10 +1,7 @@
 package com.dprieto.dragonballapp.data
 
 import com.dprieto.dragonballapp.data.local.LocalDataSource
-import com.dprieto.dragonballapp.data.mappers.LocalToPresentationMapper
-import com.dprieto.dragonballapp.data.mappers.RemoteToLocalMapper
-import com.dprieto.dragonballapp.data.mappers.ResponseToPresentationDetailMapper
-import com.dprieto.dragonballapp.data.mappers.ResponseToPresentationMapper
+import com.dprieto.dragonballapp.data.mappers.*
 import com.dprieto.dragonballapp.data.remote.RemoteDataSource
 import com.dprieto.dragonballapp.ui.detail.HeroDetailState
 import com.dprieto.dragonballapp.ui.herolist.HeroListState
@@ -13,6 +10,7 @@ import javax.inject.Inject
 
 class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteDataSource,
                                         private val remoteToPresentationMapper: ResponseToPresentationMapper,
+                                        private val localToPresentationDetailMapper: LocalToPresentationDetailMapper,
                                         private val remoteToPresentationDetailMapper: ResponseToPresentationDetailMapper,
                                         private val localDataSource: LocalDataSource,
                                         private val remoteToLocalMapper: RemoteToLocalMapper,
@@ -94,7 +92,39 @@ class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteData
         }
     }
 
-    override suspend fun setFavorite(): HeroDetailState {
-        TODO("Not yet implemented")
+    override suspend fun setFavorite(id: String, name: String): HeroDetailState {
+        val result = remoteDataSource.setFavorite(id)
+
+        when {
+            result.isSuccess -> {
+                //Volver a solicitar los heroes
+                val resultGetHero = remoteDataSource.getHeroDetail(name)
+
+                when{
+
+                    resultGetHero.isSuccess -> {
+
+                        resultGetHero.getOrNull()?.let {
+                            //Guardar en local
+                            localDataSource.updateHero(remoteToLocalMapper.map(it))
+
+                            //Devolver heroe
+                            return HeroDetailState.SuccessDetail(localToPresentationDetailMapper.map(localDataSource.getHero(it.id)))
+
+                        }?: return HeroDetailState.Error(
+                            "Error al actualizar el heroe"
+                        )
+                    }
+
+                    else -> {
+                        return HeroDetailState.Error("Error al solicitar heroe")
+                    }
+                }
+            }
+            else -> {
+                return HeroDetailState.Error("Error al guardar favorito")
+            }
+        }
+
     }
 }

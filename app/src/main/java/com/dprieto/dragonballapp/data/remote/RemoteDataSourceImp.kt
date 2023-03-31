@@ -1,5 +1,6 @@
 package com.dprieto.dragonballapp.data.remote
 
+import com.dprieto.dragonballapp.data.remote.request.FavoriteRequest
 import com.dprieto.dragonballapp.data.remote.request.HerosRequest
 import com.dprieto.dragonballapp.data.remote.request.LocationsRequest
 import com.dprieto.dragonballapp.data.remote.response.HeroResponse
@@ -24,8 +25,8 @@ class RemoteDataSourceImp @Inject constructor(private val api: DragonBallApi): R
         return runCatching { api.getHeroLocations(LocationsRequest(id = id)) }
     }
 
-    override suspend fun setFavorite() {
-        TODO("Not yet implemented")
+    override suspend fun setFavorite(id: String): Result<Unit> {
+        return runCatching { api.favorite(FavoriteRequest(id)) }
     }
 
 }

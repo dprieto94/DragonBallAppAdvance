@@ -9,6 +9,6 @@ interface Repository {
     suspend fun getHeros(): HeroListState
     suspend fun getHeroDetail(name: String): HeroDetailState
     suspend fun getLocations(id: String): HeroDetailState
-    suspend fun setFavorite(): HeroDetailState
+    suspend fun setFavorite(id: String, name: String): HeroDetailState
 
 }

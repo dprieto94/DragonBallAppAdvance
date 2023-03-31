@@ -49,6 +49,13 @@ class HeroDetailFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+
+        binding.heroFavoriteDetail.setOnClickListener {
+            viewModel.updateFavorite(args.hero.id, args.hero.name)
+        }
+
         viewModel.state.observe(viewLifecycleOwner){ state ->
             when(state){
                 is HeroDetailState.SuccessDetail -> {
@@ -74,8 +81,6 @@ class HeroDetailFragment : Fragment(), OnMapReadyCallback {
         viewModel.getSuperHeroDetail(args.hero.name)
         viewModel.getLocations(args.hero.id)
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        mapFragment?.getMapAsync(this)
     }
 
     override fun onDestroyView() {
@@ -85,15 +90,19 @@ class HeroDetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+
     }
 
     private fun addMarkerToMap(name: String, latitude: Double, longitude: Double){
 
-        val marker = LatLng(latitude, longitude)
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(marker)
-                .title(name))
+        if(this::googleMap.isInitialized) {
+            val marker = LatLng(latitude, longitude)
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(marker)
+                    .title(name)
+            )
+        }
     }
 
 }

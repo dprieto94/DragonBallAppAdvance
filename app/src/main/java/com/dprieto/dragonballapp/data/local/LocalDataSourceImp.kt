@@ -8,6 +8,10 @@ class LocalDataSourceImp @Inject constructor(private val dao: HeroDAO): LocalDat
         return runCatching { dao.getAllHeros() }
     }
 
+    override fun getHero(id: String): HeroRoomModel {
+        return dao.getHero(id)
+    }
+
     override fun insertHeros(localSuperherosList: List<HeroRoomModel>) {
         dao.insertAll(localSuperherosList)
     }

@@ -9,6 +9,6 @@ interface RemoteDataSource {
     suspend fun getHeros(): Result<List<HeroResponse>>
     suspend fun getHeroDetail(name: String): Result<HeroResponse?>
     suspend fun getLocations(id: String): Result<List<LocationsResponse>>
-    suspend fun setFavorite()
+    suspend fun setFavorite(id: String): Result<Unit>
 
 }
