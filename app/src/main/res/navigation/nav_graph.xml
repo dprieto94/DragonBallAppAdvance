@@ -57,9 +57,9 @@
         tools:layout="@layout/fragment_hero_detail">
 
         <argument
-            android:name="superhero_name"
+            android:name="hero"
             app:nullable="false"
-            app:argType="string"/>
+            app:argType="com.dprieto.dragonballapp.domain.HeroModel"/>
 
     </fragment>
 </navigation>

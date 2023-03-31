@@ -39,6 +39,12 @@ class HeroDetailViewModel @Inject constructor(private val repository: Repository
     }
 
     fun getLocations(id: String){
+        viewModelScope.launch {
+            val heroLocations = withContext(Dispatchers.IO){
+                repository.getLocations(id)
+            }
 
+            _state.value = heroLocations
+        }
     }
 }

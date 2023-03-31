@@ -4,7 +4,7 @@ import com.dprieto.dragonballapp.data.local.model.HeroRoomModel
 
 interface LocalDataSource {
 
-    fun getHeros(): List<HeroRoomModel>
+    fun getHeros(): Result<List<HeroRoomModel>>
 
     fun insertHeros(localSuperherosList: List<HeroRoomModel>)
 

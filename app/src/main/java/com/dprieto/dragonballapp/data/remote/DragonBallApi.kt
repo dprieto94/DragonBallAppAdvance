@@ -1,12 +1,11 @@
 package com.dprieto.dragonballapp.data.remote
 
-import android.location.LocationRequest
 import com.dprieto.dragonballapp.data.remote.request.FavoriteRequest
 import com.dprieto.dragonballapp.data.remote.request.HerosRequest
+import com.dprieto.dragonballapp.data.remote.request.LocationsRequest
 import com.dprieto.dragonballapp.data.remote.response.HeroResponse
 import com.dprieto.dragonballapp.data.remote.response.LocationsResponse
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface DragonBallApi {
@@ -24,6 +23,6 @@ interface DragonBallApi {
     suspend fun getHeroDetail(@Body herosRequest: HerosRequest): List<HeroResponse>
 
     @POST("/api/heros/locations")
-    suspend fun getHeroLocations(@Body locationRequest: LocationRequest) : List<LocationsResponse>
+    suspend fun getHeroLocations(@Body locationRequest: LocationsRequest) : List<LocationsResponse>
 
 }

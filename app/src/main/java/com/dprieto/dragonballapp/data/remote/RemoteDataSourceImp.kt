@@ -1,7 +1,9 @@
 package com.dprieto.dragonballapp.data.remote
 
 import com.dprieto.dragonballapp.data.remote.request.HerosRequest
+import com.dprieto.dragonballapp.data.remote.request.LocationsRequest
 import com.dprieto.dragonballapp.data.remote.response.HeroResponse
+import com.dprieto.dragonballapp.data.remote.response.LocationsResponse
 import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(private val api: DragonBallApi): RemoteDataSource {
@@ -18,8 +20,8 @@ class RemoteDataSourceImp @Inject constructor(private val api: DragonBallApi): R
         return runCatching { api.getHeroDetail(HerosRequest(name = name)).firstOrNull() }
     }
 
-    override suspend fun getLocations(id: String): Result<List<HeroResponse>> {
-        TODO("Not yet implemented")
+    override suspend fun getLocations(id: String): Result<List<LocationsResponse>> {
+        return runCatching { api.getHeroLocations(LocationsRequest(id = id)) }
     }
 
     override suspend fun setFavorite() {

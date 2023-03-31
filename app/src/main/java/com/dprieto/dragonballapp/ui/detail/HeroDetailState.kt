@@ -1,9 +1,11 @@
 package com.dprieto.dragonballapp.ui.detail
 
+import com.dprieto.dragonballapp.data.remote.response.LocationsResponse
 import com.dprieto.dragonballapp.domain.HeroModelDetail
 
 sealed class HeroDetailState {
-    data class Success(val hero: HeroModelDetail) : HeroDetailState()
+    data class SuccessDetail(val hero: HeroModelDetail) : HeroDetailState()
+    data class SuccessLocations(val locations: List<LocationsResponse>) : HeroDetailState()
     data class Error(val error: String?) : HeroDetailState()
     data class NetworkError(val code: Int) : HeroDetailState()
 }
