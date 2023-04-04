@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dprieto.dragonballapp.data.Repository
+import com.dprieto.dragonballapp.domain.LoginCredentialsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +45,13 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
         sharedPreferences.edit().apply {
             putString("token", token)
         }.apply()
+    }
+
+    fun preLoadCredentials(): LoginCredentialsModel{
+        return LoginCredentialsModel(
+            sharedPreferences.getString("user", "").toString(),
+            sharedPreferences.getString("pass", "").toString()
+        )
     }
 
 }
