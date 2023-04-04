@@ -15,9 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HeroListViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
-    //Ejemplo de errores
     private val _state = MutableLiveData<HeroListState>()
-    //Una parte publica para leer desde la vista. Se sobrescribe el get para obtener valores
     val state: LiveData<HeroListState>
         get() = _state
 

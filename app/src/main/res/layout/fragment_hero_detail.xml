@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dragon_ball_background_image"
     tools:context=".ui.detail.HeroDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,6 +44,7 @@
             android:id="@+id/hero_description_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:layout_margin="5dp"
             android:textSize="15sp"
             android:textStyle="bold"

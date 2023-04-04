@@ -1,12 +1,15 @@
 package com.dprieto.dragonballapp.di
 
+import android.content.SharedPreferences
 import com.dprieto.dragonballapp.data.remote.DragonBallApi
+import com.dprieto.dragonballapp.ui.login.LoginFragment
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,9 +20,19 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object NetworkModule {
 
     @Provides
-    fun provideToken(): String{
-        return "eyJraWQiOiJwcml2YXRlIiwiYWxnIjoiSFMyNTYiLCJ0eXAiOiJKV1QifQ.eyJpZGVudGlmeSI6IjdBQjhBQzRELUFEOEYtNEFDRS1BQTQ1LTIxRTg0QUU4QkJFNyIsImVtYWlsIjoiYmVqbEBrZWVwY29kaW5nLmVzIiwiZXhwaXJhdGlvbiI6NjQwOTIyMTEyMDB9.Dxxy91hTVz3RTF7w1YVTJ7O9g71odRcqgD00gspm30s"
-    }
+    fun provideCredentials(sharedPreferences: SharedPreferences): String{
+
+        return if (LoginFragment.isUserLoggedInApp)
+            //Access to sharedpreferences
+            sharedPreferences.getString("token", "").toString()
+
+        else {
+            val user = sharedPreferences.getString("user", "").toString()
+            val pass = sharedPreferences.getString("pass", "").toString()
+
+            return Credentials.basic(user, pass)
+        }
+     }
 
     @Provides
     fun provideMoshi(): Moshi {
@@ -36,28 +49,34 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient(httpLogginInterceptor: HttpLoggingInterceptor, token: String): OkHttpClient {
-        return  OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                //Este interractor modifica la header
-                val originalRequest = chain.request()
+    fun provideOkHttpClient(httpLogginInterceptor: HttpLoggingInterceptor, credentials: String): OkHttpClient {
 
-                val newRequest = originalRequest.newBuilder()
-                    .header("Authorization", "Bearer $token")
-                    .header("Content-Type", "application/json")
-                    .build()
+        return if (LoginFragment.isUserLoggedInApp)
 
-                chain.proceed(newRequest)
-            }
-            //Se ejecuta cuando da un error (Se baraja response con la 401)
-                /*
-            .authenticator{ _, response ->
-                response.request.newBuilder().header("Authorization", "Bearer ${SuperHeroListViewModel.TOKEN}").build()
-            }
-                 */
-            //Este inteactor muestra los logs
-            .addInterceptor(httpLogginInterceptor)
-            .build()
+            OkHttpClient.Builder()
+                .addInterceptor { chain ->
+                    val originalRequest = chain.request()
+
+                    val newRequest = originalRequest.newBuilder()
+                        .header("Authorization", "Bearer $credentials")
+                        .header("Content-Type", "application/json")
+                        .build()
+
+                    chain.proceed(newRequest)
+                }
+                .addInterceptor(httpLogginInterceptor)
+                .build()
+        else
+
+            OkHttpClient.Builder()
+                .addInterceptor{ chain ->
+                    val originalRequest = chain.request()
+                    val newRequest = originalRequest.newBuilder().header("Authorization", credentials).build()
+                    chain.proceed(newRequest)
+                }
+                .addInterceptor(httpLogginInterceptor)
+                .build()
+
     }
 
 

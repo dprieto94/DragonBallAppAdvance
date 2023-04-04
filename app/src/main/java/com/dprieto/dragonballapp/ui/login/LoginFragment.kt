@@ -16,9 +16,11 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    companion object{
+        var isUserLoggedInApp: Boolean = false
+    }
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -37,6 +39,10 @@ class LoginFragment : Fragment() {
 
         with(binding){
             buttonLogin.setOnClickListener {
+
+
+
+
                 findNavController()
                     .navigate(LoginFragmentDirections.actionLoginFragmentToHeroListFragment())
             }
