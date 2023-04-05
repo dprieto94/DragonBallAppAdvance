@@ -4,6 +4,11 @@ import com.dprieto.dragonballapp.data.local.model.HeroRoomModel
 import com.dprieto.dragonballapp.data.remote.response.HeroResponse
 import com.dprieto.dragonballapp.data.remote.response.LocationsResponse
 import com.dprieto.dragonballapp.domain.HeroModel
+import com.dprieto.dragonballapp.domain.HeroModelDetail
+import com.dprieto.dragonballapp.ui.detail.HeroDetailLocationsState
+import com.dprieto.dragonballapp.ui.detail.HeroDetailState
+import com.dprieto.dragonballapp.ui.herolist.HeroListState
+import com.dprieto.dragonballapp.ui.login.LoginState
 
 
 fun generateToken(): String{
@@ -45,13 +50,29 @@ fun generateHerosLocal(): List<HeroRoomModel> {
     }
 }
 
-fun generateHeros(): List<HeroModel> {
+fun generateHerosPresentation(): List<HeroModel> {
     return (0 until 10).map {
         HeroModel(
             "ID: $it",
             "Name $it",
             "Photo $it",
-            it%2 == 0
+            false
         )
     }
+}
+
+fun generateLoginState(): LoginState{
+    return LoginState.Success(generateToken())
+}
+
+fun generateHeroListState(): HeroListState{
+    return HeroListState.Success(generateHerosPresentation())
+}
+
+fun generateHeroDetailState(): HeroDetailState{
+    return HeroDetailState.SuccessDetail(HeroModelDetail("ID", "NAME", "PHOTO", "DESC", true))
+}
+
+fun generateLocationsState(): HeroDetailLocationsState{
+    return HeroDetailLocationsState.Success(generateLocations())
 }
