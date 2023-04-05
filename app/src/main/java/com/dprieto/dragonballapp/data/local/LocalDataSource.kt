@@ -11,4 +11,8 @@ interface LocalDataSource {
     fun insertHeros(localSuperherosList: List<HeroRoomModel>)
 
     fun updateHero(hero: HeroRoomModel)
+
+    fun saveParam(id: String, value: String)
+
+    fun getParam(id: String): String
 }

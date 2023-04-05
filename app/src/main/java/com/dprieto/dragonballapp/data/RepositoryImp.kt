@@ -11,9 +11,9 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteDataSource,
+                                        private val localDataSource: LocalDataSource,
                                         private val localToPresentationDetailMapper: LocalToPresentationDetailMapper,
                                         private val remoteToPresentationDetailMapper: ResponseToPresentationDetailMapper,
-                                        private val localDataSource: LocalDataSource,
                                         private val remoteToLocalMapper: RemoteToLocalMapper,
                                         private val localToPresentationMapper: LocalToPresentationMapper): Repository {
 
@@ -149,5 +149,13 @@ class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteData
             }
         }
 
+    }
+
+    override fun saveParam(id: String, value: String) {
+        localDataSource.saveParam(id, value)
+    }
+
+    override fun getParam(id: String): String {
+        return localDataSource.getParam(id)
     }
 }

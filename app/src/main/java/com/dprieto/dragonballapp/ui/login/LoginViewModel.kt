@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val repository: Repository, private val sharedPreferences: SharedPreferences): ViewModel() {
+class LoginViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     companion object{
         private val TAG = "LoginViewModel: "
@@ -34,23 +34,23 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
         }
     }
 
+    fun resetState(){
+        _state.value = LoginState.WaitingInput
+    }
+
     fun saveCredentials(user: String, pass: String){
-        sharedPreferences.edit().apply {
-            putString("user", user)
-            putString("pass", pass)
-        }.apply()
+        repository.saveParam("user", user)
+        repository.saveParam("pass", pass)
     }
 
     fun saveToken(token: String){
-        sharedPreferences.edit().apply {
-            putString("token", token)
-        }.apply()
+        repository.saveParam("token", token)
     }
 
     fun preLoadCredentials(): LoginCredentialsModel{
         return LoginCredentialsModel(
-            sharedPreferences.getString("user", "").toString(),
-            sharedPreferences.getString("pass", "").toString()
+            repository.getParam("user"),
+            repository.getParam("pass")
         )
     }
 

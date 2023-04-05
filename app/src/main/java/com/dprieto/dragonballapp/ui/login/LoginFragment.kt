@@ -58,14 +58,17 @@ class LoginFragment : Fragment() {
                     is LoginState.Success -> {
                         viewModel.saveToken(state.token)
                         isUserLoggedInApp = true
-
                         findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHeroListFragment())
+                        viewModel.resetState()
                     }
                     is LoginState.Error -> {
                         Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
                     }
                     is LoginState.NetworkError -> {
                         Toast.makeText(requireContext(), "Network error with code ${state.code}", Toast.LENGTH_LONG).show()
+                    }
+                    is LoginState.WaitingInput -> {
+
                     }
                 }
             }
