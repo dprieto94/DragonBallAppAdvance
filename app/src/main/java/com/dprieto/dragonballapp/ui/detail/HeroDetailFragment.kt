@@ -64,11 +64,6 @@ class HeroDetailFragment : Fragment(), OnMapReadyCallback {
                     binding.heroDescriptionDetail.text = state.hero.description
                     binding.heroFavoriteDetail.isChecked = state.hero.favorite
                 }
-                is HeroDetailState.SuccessLocations -> {
-                    state.locations.forEach { location ->
-                        addMarkerToMap(location.id, location.latitud.toDouble(), location.longitud.toDouble())
-                    }
-                }
                 is HeroDetailState.Error -> {
                     Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
                 }
@@ -91,18 +86,32 @@ class HeroDetailFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
+        viewModel.locations.observe(viewLifecycleOwner){ state ->
+            when(state){
+                is HeroDetailLocationsState.Success -> {
+                    state.locations.forEach { location ->
+                        addMarkerToMap(location.id, location.latitud.toDouble(), location.longitud.toDouble())
+                    }
+                }
+                is HeroDetailLocationsState.Error -> {
+                    Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
+                }
+                is HeroDetailLocationsState.NetworkError -> {
+                    Toast.makeText(requireContext(), "Network error with code ${state.code}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     private fun addMarkerToMap(name: String, latitude: Double, longitude: Double){
 
-        if(this::googleMap.isInitialized) {
-            val marker = LatLng(latitude, longitude)
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(marker)
-                    .title(name)
-            )
+        val marker = LatLng(latitude, longitude)
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(marker)
+                .title(name)
+        )
         }
-    }
+
 
 }

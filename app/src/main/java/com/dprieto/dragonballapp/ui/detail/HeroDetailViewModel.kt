@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dprieto.dragonballapp.data.Repository
+import com.dprieto.dragonballapp.data.remote.response.LocationsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -19,6 +20,9 @@ class HeroDetailViewModel @Inject constructor(private val repository: Repository
     val state: LiveData<HeroDetailState>
         get() = _state
 
+    private val _locations = MutableLiveData<HeroDetailLocationsState>()
+    val locations: LiveData<HeroDetailLocationsState>
+        get() = _locations
 
     fun getSuperHeroDetail(name: String){
         viewModelScope.launch {
@@ -46,7 +50,7 @@ class HeroDetailViewModel @Inject constructor(private val repository: Repository
                 repository.getLocations(id)
             }
 
-            _state.value = heroLocations.await()
+            _locations.value = heroLocations.await()
         }
     }
 }

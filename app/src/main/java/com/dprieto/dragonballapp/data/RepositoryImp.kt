@@ -3,6 +3,7 @@ package com.dprieto.dragonballapp.data
 import com.dprieto.dragonballapp.data.local.LocalDataSource
 import com.dprieto.dragonballapp.data.mappers.*
 import com.dprieto.dragonballapp.data.remote.RemoteDataSource
+import com.dprieto.dragonballapp.ui.detail.HeroDetailLocationsState
 import com.dprieto.dragonballapp.ui.detail.HeroDetailState
 import com.dprieto.dragonballapp.ui.herolist.HeroListState
 import com.dprieto.dragonballapp.ui.login.LoginState
@@ -10,7 +11,6 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteDataSource,
-                                        private val remoteToPresentationMapper: ResponseToPresentationMapper,
                                         private val localToPresentationDetailMapper: LocalToPresentationDetailMapper,
                                         private val remoteToPresentationDetailMapper: ResponseToPresentationDetailMapper,
                                         private val localDataSource: LocalDataSource,
@@ -90,23 +90,23 @@ class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteData
         }
     }
 
-    override suspend fun getLocations(id: String): HeroDetailState {
+    override suspend fun getLocations(id: String): HeroDetailLocationsState {
         val result = remoteDataSource.getLocations(id)
         return when {
             result.isSuccess -> {
                 result.getOrNull()?.let {
-                    HeroDetailState.SuccessLocations(it)
-                }?: HeroDetailState.Error(
+                    HeroDetailLocationsState.Success(it)
+                }?: HeroDetailLocationsState.Error(
                     "No existen ubicaciones"
                 )
             }
             else -> {
                 when(val exception = result.exceptionOrNull()){
-                    is HttpException -> HeroDetailState.NetworkError(
+                    is HttpException -> HeroDetailLocationsState.NetworkError(
                         exception.code()
                     )
                     else -> {
-                        HeroDetailState.Error(
+                        HeroDetailLocationsState.Error(
                             result.exceptionOrNull()?.message
                         )
                     }
