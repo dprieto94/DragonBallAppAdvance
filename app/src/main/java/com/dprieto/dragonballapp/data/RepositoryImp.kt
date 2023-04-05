@@ -5,6 +5,7 @@ import com.dprieto.dragonballapp.data.mappers.*
 import com.dprieto.dragonballapp.data.remote.RemoteDataSource
 import com.dprieto.dragonballapp.ui.detail.HeroDetailState
 import com.dprieto.dragonballapp.ui.herolist.HeroListState
+import com.dprieto.dragonballapp.ui.login.LoginState
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -16,8 +17,30 @@ class RepositoryImp @Inject constructor(private val remoteDataSource: RemoteData
                                         private val remoteToLocalMapper: RemoteToLocalMapper,
                                         private val localToPresentationMapper: LocalToPresentationMapper): Repository {
 
-    override suspend fun doLogin(): String {
-        return remoteDataSource.doLogin()
+    override suspend fun doLogin(): LoginState {
+        val result = remoteDataSource.doLogin()
+
+        return when {
+            result.isSuccess -> {
+                result.getOrNull()?.let {
+                    LoginState.Success(it)
+                }?: LoginState.Error(
+                    "Error en el acceso"
+                )
+            }
+            else -> {
+                when(val exception = result.exceptionOrNull()){
+                    is HttpException -> LoginState.NetworkError(
+                        exception.code()
+                    )
+                    else -> {
+                        LoginState.Error(
+                            result.exceptionOrNull()?.message
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun getHeros(): HeroListState {

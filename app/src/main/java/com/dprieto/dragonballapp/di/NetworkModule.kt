@@ -71,7 +71,9 @@ object NetworkModule {
             OkHttpClient.Builder()
                 .addInterceptor{ chain ->
                     val originalRequest = chain.request()
-                    val newRequest = originalRequest.newBuilder().header("Authorization", credentials).build()
+                    val newRequest = originalRequest.newBuilder()
+                        .header("Authorization", credentials)
+                        .build()
                     chain.proceed(newRequest)
                 }
                 .addInterceptor(httpLogginInterceptor)
@@ -85,7 +87,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl("https://dragonball.keepcoding.education/")
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()
     }
 

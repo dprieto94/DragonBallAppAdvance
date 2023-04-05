@@ -2,10 +2,11 @@ package com.dprieto.dragonballapp.data
 
 import com.dprieto.dragonballapp.ui.detail.HeroDetailState
 import com.dprieto.dragonballapp.ui.herolist.HeroListState
+import com.dprieto.dragonballapp.ui.login.LoginState
 
 interface Repository {
 
-    suspend fun doLogin(): String
+    suspend fun doLogin(): LoginState
     suspend fun getHeros(): HeroListState
     suspend fun getHeroDetail(name: String): HeroDetailState
     suspend fun getLocations(id: String): HeroDetailState

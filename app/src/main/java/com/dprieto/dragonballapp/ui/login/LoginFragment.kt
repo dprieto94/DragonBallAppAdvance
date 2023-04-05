@@ -49,6 +49,7 @@ class LoginFragment : Fragment() {
 
             buttonLogin.setOnClickListener {
                 viewModel.saveCredentials(editTextUser.text.toString(), editTextPass.text.toString())
+                isUserLoggedInApp = false
                 viewModel.doLogin()
             }
 

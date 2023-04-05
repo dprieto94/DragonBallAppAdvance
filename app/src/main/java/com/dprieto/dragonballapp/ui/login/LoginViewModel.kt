@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
             val login = withContext(Dispatchers.IO){
                 repository.doLogin()
             }
-            Log.d(TAG, login.toString())
+            _state.value = login
         }
     }
 

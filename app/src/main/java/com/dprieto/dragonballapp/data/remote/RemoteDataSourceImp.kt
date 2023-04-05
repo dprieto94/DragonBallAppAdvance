@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class RemoteDataSourceImp @Inject constructor(private val api: DragonBallApi): RemoteDataSource {
 
-    override suspend fun  doLogin(): String{
-        return api.doLogin()
+    override suspend fun  doLogin(): Result<String>{
+        return runCatching { api.doLogin() }
     }
 
     override suspend fun getHeros(): Result<List<HeroResponse>> {
