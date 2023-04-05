@@ -6,6 +6,7 @@ import com.dprieto.dragonballapp.data.mappers.LocalToPresentationMapper
 import com.dprieto.dragonballapp.data.mappers.RemoteToLocalMapper
 import com.dprieto.dragonballapp.data.mappers.ResponseToPresentationDetailMapper
 import com.dprieto.dragonballapp.data.remote.RemoteDataSource
+import com.dprieto.dragonballapp.fake.FakeLocalDataSource
 import com.dprieto.dragonballapp.fake.FakeRemoteDataSource
 import com.dprieto.dragonballapp.ui.detail.HeroDetailLocationsState
 import com.dprieto.dragonballapp.ui.detail.HeroDetailState
@@ -263,6 +264,105 @@ class RepositoryImpTest {
         //THEN
         assert(actual is HeroDetailState.NetworkError)
         Truth.assertThat((actual as HeroDetailState.NetworkError).code).isEqualTo(204)
+
+    }
+
+    /**
+     * Test List of heros
+     */
+
+    @Test
+    fun `WHEN getHeros EXPECTS success and returns list of heros`() = runTest {
+
+        //GIVEN
+        repositoryImp = RepositoryImp(
+            FakeRemoteDataSource("SUCCESS"),
+            FakeLocalDataSource("SUCCESS"),
+            LocalToPresentationDetailMapper(),
+            ResponseToPresentationDetailMapper(),
+            RemoteToLocalMapper(),
+            LocalToPresentationMapper()
+        )
+
+        //WHEN
+        val actual = repositoryImp.getHeros()
+
+        //THEN
+        assert(actual is HeroListState.Success)
+        Truth.assertThat((actual as HeroListState.Success).heros.size).isGreaterThan(0)
+
+        Truth.assertThat((actual).heros[0].id).isEqualTo("ID: 0")
+    }
+
+    @Test
+    fun `WHEN getHeros EXPECTS success with empty local and returns heros inserted in local 0`() = runTest {
+
+        //GIVEN
+        repositoryImp = RepositoryImp(
+            FakeRemoteDataSource("SUCCESS"),
+            FakeLocalDataSource("EMPTY"),
+            LocalToPresentationDetailMapper(),
+            ResponseToPresentationDetailMapper(),
+            RemoteToLocalMapper(),
+            LocalToPresentationMapper()
+        )
+
+        //WHEN
+        val actual = repositoryImp.getHeros()
+
+        //THEN
+        assert(actual is HeroListState.Success)
+        Truth.assertThat((actual as HeroListState.Success).heros.size).isEqualTo(0)
+    }
+
+
+
+
+    /**
+     * Test Favorite
+     */
+
+    @Test
+    fun `WHEN setFavorite EXPECTS success and returns nothing`() = runTest {
+
+        //GIVEN
+        repositoryImp = RepositoryImp(
+            FakeRemoteDataSource("SUCCESS"),
+            FakeLocalDataSource("SUCCESS"),
+            LocalToPresentationDetailMapper(),
+            ResponseToPresentationDetailMapper(),
+            RemoteToLocalMapper(),
+            LocalToPresentationMapper()
+        )
+
+        //WHEN
+        val actual = repositoryImp.setFavorite("", "")
+
+        //THEN
+        assert(actual is HeroDetailState.SuccessDetail)
+        Truth.assertThat((actual as HeroDetailState.SuccessDetail).hero.id).isEqualTo("ID: 0")
+
+    }
+
+    @Test
+    fun `WHEN setFavorite EXPECTS error and returns message`() = runTest {
+
+        //GIVEN
+        repositoryImp = RepositoryImp(
+            FakeRemoteDataSource("ERROR"),
+            localDataSource,
+            LocalToPresentationDetailMapper(),
+            ResponseToPresentationDetailMapper(),
+            RemoteToLocalMapper(),
+            LocalToPresentationMapper()
+        )
+
+        //WHEN
+        val actual = repositoryImp.setFavorite("", "")
+
+        //THEN
+        assert(actual is HeroDetailState.Error)
+        Truth.assertThat((actual as HeroDetailState.Error).error).isEqualTo("Error al guardar favorito")
 
     }
 

@@ -2,22 +2,30 @@ package com.dprieto.dragonballapp.fake
 
 import com.dprieto.dragonballapp.data.local.LocalDataSource
 import com.dprieto.dragonballapp.data.local.model.HeroRoomModel
+import com.dprieto.dragonballapp.utils.generateHerosLocal
 
-class FakeLocalDataSource: LocalDataSource {
+class FakeLocalDataSource(private val expectedStatus: String): LocalDataSource {
+
+
     override fun getHeros(): Result<List<HeroRoomModel>> {
-        TODO("Not yet implemented")
+        return when(expectedStatus){
+            "SUCCESS" -> Result.success(generateHerosLocal())
+            "ERROR" -> Result.failure(Exception("Error"))
+            "EMPTY" -> Result.success(emptyList())
+            else -> {Result.failure(Exception())}
+        }
     }
 
     override fun getHero(id: String): HeroRoomModel {
-        TODO("Not yet implemented")
+        return generateHerosLocal().first()
     }
 
     override fun insertHeros(localSuperherosList: List<HeroRoomModel>) {
-        TODO("Not yet implemented")
+
     }
 
     override fun updateHero(hero: HeroRoomModel) {
-        TODO("Not yet implemented")
+
     }
 
     override fun saveParam(id: String, value: String) {
