@@ -1,6 +1,5 @@
 package com.dprieto.dragonballapp.ui.detail
 
-import com.dprieto.dragonballapp.data.remote.response.LocationsResponse
 import com.dprieto.dragonballapp.domain.HeroModelDetail
 
 sealed class HeroDetailState {

@@ -22,7 +22,7 @@ object LocalModule {
     fun provideDatabase(@ApplicationContext context: Context): HeroDatabase{
         return Room.databaseBuilder(
             context,
-            HeroDatabase::class.java, "dragon-ball-database"
+            HeroDatabase::class.java, "dragon-ball-diego-app"
         ).build()
 
     }

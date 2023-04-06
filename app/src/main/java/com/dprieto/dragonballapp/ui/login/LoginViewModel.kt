@@ -1,7 +1,5 @@
 package com.dprieto.dragonballapp.ui.login
 
-import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,10 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val repository: Repository): ViewModel() {
-
-    companion object{
-        private val TAG = "LoginViewModel: "
-    }
 
     private val _state = MutableLiveData<LoginState>()
     val state: LiveData<LoginState>
